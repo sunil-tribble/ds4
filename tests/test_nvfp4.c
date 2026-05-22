@@ -14,6 +14,10 @@
 #include <math.h>
 #include <string.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 static int n_pass = 0, n_fail = 0;
 
 #define CHECK(cond, ...) do { \
