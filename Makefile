@@ -81,7 +81,15 @@ help:
 	@echo "  make test                Build and run tests"
 	@echo "  make clean               Remove build outputs"
 
+# 2026-05-22 ds4 v2: cuda-spark now targets sm_121a (the `a` suffix is mandatory
+# for architecture-specific NVFP4 MMA instructions `mma.kind::mxf4nvf4.block_scale`).
+# Without it nvcc silently demotes FP4 MMA to the slower mxf8f6f4 family path —
+# see CUTLASS issue #3096 and FlashInfer audit #3170. The legacy empty-arch build
+# (PTX + runtime JIT) is preserved as cuda-spark-jit for fallback.
 cuda-spark:
+	$(MAKE) ds4 ds4-server ds4-bench ds4-eval ds4-agent CUDA_ARCH=sm_121a
+
+cuda-spark-jit:
 	$(MAKE) ds4 ds4-server ds4-bench ds4-eval ds4-agent CUDA_ARCH=
 
 cuda-generic:
